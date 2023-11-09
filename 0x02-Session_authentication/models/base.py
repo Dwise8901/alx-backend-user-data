@@ -1,5 +1,4 @@
-#!/usr/bin/env python3
-""" Base module
+se module
 """
 from datetime import datetime
 from typing import TypeVar, List, Iterable
@@ -126,6 +125,7 @@ class Base():
         """ Search all objects with matching attributes
         """
         s_class = cls.__name__
+
         def _search(obj):
             if len(attributes) == 0:
                 return True
@@ -133,5 +133,5 @@ class Base():
                 if (getattr(obj, k) != v):
                     return False
             return True
-        
+
         return list(filter(_search, DATA[s_class].values()))
