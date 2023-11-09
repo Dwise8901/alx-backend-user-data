@@ -3,9 +3,7 @@
 Tasks
 0. Et moi et moi et moi!
 Copy all your work of the 0x06. Basic authentication project in this new folder.
-
 In this version, you implemented a Basic authentication for giving you access to all User endpoints:
-
 GET /api/v1/users
 POST /api/v1/users
 GET /api/v1/users/<user_id>
@@ -26,12 +24,11 @@ Otherwise, keep the same behavior
 Create a class SessionAuth that inherits from Auth. For the moment this class will be empty. It’s the first step for creating a new authentication mechanism:
 
 validate if everything inherits correctly without any overloading
-validate the “switch” by using environment variables
+validate the "switch" by using environment variables
 Update api/v1/app.py for using SessionAuth instance for the variable auth depending of the value of the environment variable AUTH_TYPE, If AUTH_TYPE is equal to session_auth:
 
 import SessionAuth from api.v1.auth.session_auth
 create an instance of SessionAuth and assign it to the variable auth
-Otherwise, keep the previous mechanism.
 
 2. Create a session
 Update SessionAuth class:
@@ -70,11 +67,6 @@ Update the @app.before_request method in api/v1/app.py:
 
 Add the URL path /api/v1/auth_session/login/ in the list of excluded paths of the method require_auth - this route doesn’t exist yet but it should be accessible outside authentication
 If auth.authorization_header(request) and auth.session_cookie(request) return None, abort(401)
-In the first terminal:
-
-bob@dylan:~$ API_HOST=0.0.0.0 API_PORT=5000 AUTH_TYPE=session_auth SESSION_NAME=_my_session_id python3 -m api.v1.app
- * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
-....
 
 6. Use Session ID for identifying a User
 Update SessionAuth class:
@@ -163,6 +155,4 @@ Create a new authentication class SessionDBAuth in api/v1/auth/session_db_auth.p
 Overload def create_session(self, user_id=None): that creates and stores new instance of UserSession and returns the Session ID
 Overload def user_id_for_session_id(self, session_id=None): that returns the User ID by requesting UserSession in the database based on session_id
 Overload def destroy_session(self, request=None): that destroys the UserSession based on the Session ID from the request cookie
-Update api/v1/app.py to instantiate auth with SessionDBAuth if the environment variable AUTH_TYPE is equal to session_db_auth.
-
-
+Update api/v1/app.py to instantiate auth with SessionDBAuth if the environment variable AUTH_TYPE is equal to session_db_auth
